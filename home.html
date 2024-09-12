@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - MHI Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #131921; /* Amazon-like dark color */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        .cart {
+            color: white;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center-align text in container */
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5em; /* Larger heading size for emphasis */
+            margin-bottom: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center; /* Center-align gallery items */
+            margin-top: 20px;
+        }
+        .image-card {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            width: calc(25% - 20px); /* Adjust width for responsiveness */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .image-card img {
+            width: 100%;
+            height: auto;
+            max-height: 200px; /* Limit the height of images */
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .image-card p {
+            font-size: 1.1em;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .price {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: bold;
+        }
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0c14b; /* Amazon-like button color */
+            margin-top: 10px;
+        }
+        .buy-button:hover {
+            background-color: #e1a800;
+        }
+        footer {
+            background-color: #131921; /* Amazon-like dark color */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px; /* Add some space between footer columns */
+        }
+        .footer-content div {
+            margin: 0;
+            text-align: center;
+        }
+        .footer-content h4 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .footer-content p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            <a href="{% url 'view_cart' %}" class="cart">Cart</a>
+            <a href="{% url 'upload_image' %}" class="cart">Upload Image</a>
+        </nav>
+        <div>
+            <a href="{% url 'logout' %}" style="color: white; font-weight: bold;">Logout</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Welcome to MHI Store</h1>
+
+        <div class="image-gallery">
+            {% for image in uploaded_images %}
+                <div class="image-card">
+                    <img src="{{ image.image.url }}" alt="{{ image.name }}">
+                    <p>{{ image.name }}</p>
+                    <p class="price">${{ image.price }}</p>
+                    <!-- Form to add image to cart -->
+                    <form action="{% url 'add_to_cart' image.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_type" value="image">
+                        <button type="submit" class="buy-button">Buy Now</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>No images uploaded yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h4>Customer Service</h4>
+                <p>Help & Contact Us</p>
+                <p>Returns & Replacements</p>
+                <p>Manage Your Content</p>
+            </div>
+            <div>
+                <h4>About Us</h4>
+                <p>Careers</p>
+                <p>Blog</p>
+                <p>Press Releases</p>
+            </div>
+            <div>
+                <h4>More</h4>
+                <p>Gift Cards</p>
+                <p>Amazon Prime</p>
+                <p>Privacy Policy</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
