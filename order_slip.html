@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Slip</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #ff9900;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #232f3e;
+        }
+        .order-details {
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 15px;
+        }
+        .order-details p {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .order-details p strong {
+            color: #232f3e;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        .items-table th, .items-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-size: 15px;
+        }
+        .items-table th {
+            background-color: #f7f7f7;
+            color: #555;
+        }
+        .items-table td {
+            color: #333;
+        }
+        .total {
+            text-align: right;
+            font-weight: 600;
+            font-size: 18px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #ff9900;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Order Confirmation</h1>
+        </div>
+        <div class="order-details">
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Shipping Address:</strong> {{ order.address }}</p>
+            <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+        </div>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>
+                        {% if item.product %}
+                            {{ item.product.name }}
+                        {% elif item.image %}
+                            {{ item.image.name }}
+                        {% endif %}
+                    </td>
+                    <td>${{ item.total_price / item.quantity }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="total">Total Price: ${{ order.total_price }}</p>
+        <div class="footer">
+            <p>Thank you for shopping with us!</p>
+            <p><a href="#">Return to Home</a></p>
+        </div>
+    </div>
+</body>
+</html>
