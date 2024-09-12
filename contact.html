@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            color: #232f3e; /* Amazon-like dark color */
+        }
+
+        /* Header Styling */
+        .contact-header {
+            background-color: #232f3e;
+            color: #f0c14b;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-buttons {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .btn-header {
+            background-color: #f0c14b;
+            color: #232f3e;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        .btn-header:hover {
+            background-color: #ddb347;
+            color: #232f3e;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 40px 0;
+        }
+
+        .content-section h2 {
+            color: #232f3e;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            padding: 15px;
+        }
+
+        .btn-custom {
+            background-color: #f0c14b;
+            color: #232f3e;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #ddb347;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #232f3e;
+            color: #f0c14b;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Contact Header -->
+    <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>We're here to help! Reach out to us anytime.</p>
+
+        <!-- Navigation Buttons -->
+        <div class="header-buttons">
+            <a href="{% url 'home' %}" class="btn btn-header mr-2">Home</a>
+            <a href="{% url 'about' %}" class="btn btn-header">About Us</a>
+        </div>
+    </div>
+
+    <!-- Contact Us Content Section -->
+    <div class="container content-section">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h2>Get in Touch</h2>
+                <form action="{% url 'contact' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" rows="5" class="form-control" placeholder="Enter your message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-custom">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-white text-center py-3">
+        <p>&copy; 2024 Your E-Commerce. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
