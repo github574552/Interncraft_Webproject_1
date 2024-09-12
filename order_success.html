@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .alert {
+            border-radius: 8px;
+        }
+        .alert-success {
+            background-color: #f0c14b;
+            color: #111;
+            border: 1px solid #a88734;
+        }
+        .alert-success h2 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .alert-success p {
+            font-size: 16px;
+        }
+        .btn-primary {
+            background-color: #ff9900;
+            border-color: #ff9900;
+        }
+        .btn-primary:hover {
+            background-color: #e68a00;
+            border-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert alert-success text-center">
+            <h2>Thank you for your order!</h2>
+            <p>Your order has been placed successfully.</p>
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <a href="{% url 'generate_order_slip_pdf' order.id %}" class="btn btn-primary mt-3">Download Order Slip</a>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
