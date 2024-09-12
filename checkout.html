@@ -1,0 +1,143 @@
+{% load static %}
+{% load filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7; /* Slightly lighter background color */
+            font-family: Arial, sans-serif;
+        }
+        .checkout-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: auto;
+            margin-top: 50px;
+        }
+        h2 {
+            color: #131921; /* Amazon-like dark color */
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd; /* Adds a bottom border for emphasis */
+            padding-bottom: 10px;
+        }
+        .item-image {
+            max-width: 100px;
+            height: auto;
+            border: 1px solid #ddd; /* Adds a border around the image */
+            border-radius: 5px;
+        }
+        .btn-custom {
+            background-color: #f0c14b; /* Amazon-like button color */
+            color: #131921; /* Amazon-like dark color */
+            border: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+        .btn-custom:hover {
+            background-color: #e1a800; /* Darker Amazon-like button color */
+            color: #fff;
+        }
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-control:focus {
+            border-color: #131921;
+            box-shadow: 0 0 5px rgba(19, 25, 33, 0.2);
+            outline: none;
+        }
+        .list-group-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+        .list-group-item img {
+            margin-right: 15px;
+        }
+        .float-right {
+            margin-left: auto;
+            font-weight: bold;
+            color: #131921;
+        }
+        .checkout-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f3f3f3;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .checkout-summary h4 {
+            margin-top: 0;
+            font-weight: 700;
+            color: #131921;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkout-container">
+            <h2 class="text-center">Checkout</h2>
+            <form action="{% url 'checkout' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="address">Shipping Address</label>
+                    <input type="text" id="address" name="address" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="card">Card Information</label>
+                    <input type="text" id="card" name="card" class="form-control" required>
+                </div>
+                <h3>Cart Items</h3>
+                <ul class="list-group mb-3">
+                    {% for item in cart_items %}
+                        <li class="list-group-item">
+                            {% if item.product %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
+                                <div>
+                                    <strong>{{ item.product.name }}</strong><br>
+                                    ${{ item.product.price }} x {{ item.quantity }}
+                                </div>
+                                <span class="float-right">${{ item.total_price }}</span>
+                            {% elif item.image %}
+                                <img src="{{ item.image.image.url }}" alt="{{ item.image.name }}" class="item-image">
+                                <div>
+                                    <strong>{{ item.image.name }}</strong><br>
+                                    ${{ item.image.price }} x {{ item.quantity }}
+                                </div>
+                                <span class="float-right">${{ item.total_price }}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="checkout-summary">
+                    <h4>Order Summary</h4>
+                    <p>Total Price: ${{ total_price }}</p>
+                </div>
+                <button type="submit" class="btn btn-custom btn-block">Complete Purchase</button>
+            </form>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
